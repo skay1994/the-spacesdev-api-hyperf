@@ -1,0 +1,23 @@
+version: '3'
+services:
+    web:
+        image: hyperf/hyperf:8.0-alpine-v3.15-swoole
+        working_dir: /app
+#        entrypoint: tail -f /dev/null
+        ports:
+            - 9501:9501
+        volumes:
+            - .:/app
+        command: php bin/hyperf.php start
+        depends_on:
+            - db
+    db:
+        image: mysql:8.0
+        ports:
+            - 3306:3306
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: hyperf
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
